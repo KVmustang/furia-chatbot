@@ -110,4 +110,4 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para m
 
 ## Autor
 
-Desenvolvido como parte de um desafio técnico para o processo seletivo de estágio em engenharia de software na FURIA Esports.
+Desenvolvido como parte de um desafio técnico para o processo seletivo de estágio em engenharia de software na FURIA Esports. Kelvin Vaz de Almeida
