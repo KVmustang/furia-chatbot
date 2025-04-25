@@ -1,0 +1,63 @@
+{
+  "historia": {
+    "fundacao": "A FURIA Esports foi fundada em 8 de agosto de 2017 em Uberlândia, Minas Gerais.",
+    "fundadores": ["Jaime Pádua", "André Akkari", "Cris Guedes"],
+    "origem": "A organização começou com foco no Counter-Strike: Global Offensive (CS:GO) e rapidamente se expandiu para outras modalidades.",
+    "crescimento": "Com o sucesso alcançado no CS:GO, a FURIA ampliou sua presença em outras modalidades e hoje é uma das maiores organizações de esports do Brasil."
+  },
+  "jogadores_atuais": {
+    "cs2": [
+      {"nickname": "yuurih", "nome_completo": "Yuri Santos", "funcao": "Rifler"},
+      {"nickname": "KSCERATO", "nome_completo": "Kaike Cerato", "funcao": "Rifler"},
+      {"nickname": "FalleN", "nome_completo": "Gabriel Toledo", "funcao": "Rifler"},
+      {"nickname": "molodoy", "nome_completo": "Danil Golubenko", "funcao": "AWPer"},
+      {"nickname": "skullz", "nome_completo": "Felipe Medeiros", "funcao": "Rifler"}
+    ],
+    "comissao_tecnica": [
+      {"nickname": "sidde", "nome_completo": "Sid Macedo", "funcao": "Treinador"},
+      {"nickname": "Hepa", "nome_completo": "Juan Borges", "funcao": "Treinador assistente"},
+      {"nickname": "guerri", "nome_completo": "Nicholas Nogueira", "funcao": "Head de Esports"}
+    ]
+  },
+  "jogadores_historicos": [
+    {"nickname": "arT", "nome_completo": "Andrei Piovezan", "periodo": "2018-2024", "destaque": "Capitão histórico da equipe e um dos responsáveis pela ascensão da FURIA no cenário internacional."},
+    {"nickname": "VINI", "nome_completo": "Vinicius Figueiredo", "periodo": "2018-2022", "destaque": "Conquistou diversos títulos como a ESEA Season 31: Global Challenge e a DreamHack Open Summer 2020."},
+    {"nickname": "HEN1", "nome_completo": "Henrique Teles", "periodo": "2019-2021", "destaque": "Ajudou a equipe a vencer campeonatos como a ESL Pro League Season 12: North America."},
+    {"nickname": "spacca", "nome_completo": "Guilherme Spacca", "periodo": "2018", "destaque": "Em sua breve passagem, levou os panteras à vitória da GG.BET Ascensão."}
+  ],
+  "conquistas": [
+    {"titulo": "ESL Pro League Season 12 North America", "ano": 2020, "adversario": "100 Thieves", "resultado": "3-0", "premiacao": "US$77,500"},
+    {"titulo": "DreamHack Masters Spring 2020: North America", "ano": 2020, "adversario": "Team Liquid", "resultado": "3-0", "premiacao": "US$40,000"},
+    {"titulo": "Elisa Masters Espoo 2023", "ano": 2023, "adversario": "Astralis", "resultado": "3-1", "premiacao": "US$100,000"},
+    {"titulo": "Arctic Invitational 2019", "ano": 2019, "adversario": "ENCE", "resultado": "2-0", "premiacao": "US$66,519.41"},
+    {"titulo": "ESEA Season 31: Global Challenge", "ano": 2019, "adversario": "Team Vitality", "resultado": "2-0", "premiacao": "US$25,000"}
+  ],
+  "majors": {
+    "participacoes": 7,
+    "melhor_resultado": "Semifinal no IEM Rio Major 2022",
+    "historico": [
+      {"nome": "IEM Katowice Major 2019", "resultado": "Eliminada no Challengers Stage"},
+      {"nome": "StarLadder Berlin Major 2019", "resultado": "Eliminada no Challengers Stage"},
+      {"nome": "PGL Major Stockholm 2021", "resultado": "Chegou aos playoffs"},
+      {"nome": "PGL Major Antwerp 2022", "resultado": "Chegou aos playoffs"},
+      {"nome": "IEM Rio Major 2022", "resultado": "Semifinal"},
+      {"nome": "BLAST.tv Paris Major 2023", "resultado": "Eliminada no Legends Stage"},
+      {"nome": "PGL CS2 Major Copenhagen", "resultado": "Participação confirmada"}
+    ],
+    "destaque": "A FURIA é a única equipe brasileira a participar de todos os Majors desde 2019."
+  },
+  "outras_modalidades": ["Rocket League", "League of Legends", "Valorant", "Rainbow Six: Siege", "Apex Legends", "Futebol de 7"],
+  "reconhecimentos": [
+    "Eleita a melhor organização de esportes eletrônicos no Prêmio eSports Brasil em 2020 e 2021",
+    "Apontada como a quinta maior organização de esportes eletrônicos do mundo pelo portal norte-americano Nerd Street em 2022",
+    "Primeira organização brasileira a garantir uma participação fixa na ESL Pro League através do Acordo do Louvre"
+  ],
+  "redes_sociais": {
+    "twitter": "@FURIA",
+    "instagram": "@furiagg",
+    "facebook": "/furiagg",
+    "youtube": "FURIA",
+    "twitch": "furiatv"
+  },
+  "loja": "shop.furia.gg"
+}

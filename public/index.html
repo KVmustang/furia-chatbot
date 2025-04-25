@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FURIA Esports - Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .chat-container {
+            height: 70vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #333 #111;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-container::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .user-message {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            align-self: flex-end;
+            max-width: 80%;
+        }
+        .bot-message {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            align-self: flex-start;
+            max-width: 80%;
+            border-left: 3px solid #ff5500;
+        }
+        .furia-accent {
+            color: #ff5500;
+        }
+        .input-area {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        .send-button {
+            background-color: #ff5500;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+        .send-button:hover {
+            background-color: #e64d00;
+        }
+        .suggestion-btn {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 5px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .suggestion-btn:hover {
+            background-color: #2a2a2a;
+            border-color: #ff5500;
+        }
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            margin: 0 2px;
+            background-color: #ff5500;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0.4;
+        }
+        .typing-indicator span:nth-child(1) {
+            animation: pulse 1s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation: pulse 1s infinite 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation: pulse 1s infinite 0.4s;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-6">
+            <div class="flex items-center">
+                <img src="assets/images/furia-logo.png" alt="FURIA Esports Logo" class="h-12 mr-3">
+                <h1 class="text-2xl font-bold"><span class="furia-accent">FURIA</span> Chatbot</h1>
+            </div>
+            <div class="hidden md:block">
+                <div class="flex space-x-4">
+                    <a href="https://furia.gg" target="_blank" class="text-gray-300 hover:text-white">Site Oficial</a>
+                    <a href="https://shop.furia.gg" target="_blank" class="text-gray-300 hover:text-white">Loja</a>
+                    <a href="https://twitter.com/FURIA" target="_blank" class="text-gray-300 hover:text-white">Twitter</a>
+                    <a href="https://instagram.com/furiagg" target="_blank" class="text-gray-300 hover:text-white">Instagram</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="bg-gray-900 rounded-lg shadow-lg p-4">
+            <div class="chat-container flex flex-col p-4" id="chatContainer">
+                <!-- Mensagens serão adicionadas aqui dinamicamente -->
+            </div>
+
+            <div class="mt-4 flex">
+                <input type="text" id="messageInput" class="input-area flex-grow px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Digite sua mensagem...">
+                <button id="sendButton" class="send-button ml-2">Enviar</button>
+            </div>
+        </main>
+
+        <footer class="mt-6 text-center text-gray-500 text-sm">
+            <p>© 2025 FURIA Esports - Todos os direitos reservados</p>
+            <p class="mt-2">Desenvolvido para fãs, por fãs.</p>
+        </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+            const chatContainer = document.getElementById('chatContainer');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            let isTyping = false;
+
+            // Função para adicionar mensagem ao chat
+            function addMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add(message.user === 'user' ? 'user-message' : 'bot-message');
+                
+                const messageText = document.createElement('p');
+                messageText.textContent = message.text;
+                messageElement.appendChild(messageText);
+                
+                const timestamp = document.createElement('div');
+                timestamp.classList.add('text-xs', 'text-gray-500', 'mt-1');
+                const time = new Date(message.timestamp);
+                timestamp.textContent = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+                messageElement.appendChild(timestamp);
+                
+                chatContainer.appendChild(messageElement);
+                
+                // Rolar para a mensagem mais recente
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Função para mostrar indicador de digitação
+            function showTypingIndicator() {
+                if (isTyping) return;
+                
+                isTyping = true;
+                const typingElement = document.createElement('div');
+                typingElement.id = 'typingIndicator';
+                typingElement.classList.add('typing-indicator', 'bot-message');
+                
+                const text = document.createElement('p');
+                text.textContent = 'FURIA está digitando ';
+                typingElement.appendChild(text);
+                
+                const dots = document.createElement('div');
+                dots.innerHTML = '<span></span><span></span><span></span>';
+                typingElement.appendChild(dots);
+                
+                chatContainer.appendChild(typingElement);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Função para remover indicador de digitação
+            function hideTypingIndicator() {
+                const typingElement = document.getElementById('typingIndicator');
+                if (typingElement) {
+                    typingElement.remove();
+                }
+                isTyping = false;
+            }
+
+            // Enviar mensagem
+            function sendMessage() {
+                const text = messageInput.value.trim();
+                if (text) {
+                    const message = {
+                        user: 'user',
+                        text,
+                        timestamp: new Date()
+                    };
+                    
+                    // Adicionar mensagem do usuário ao chat
+                    addMessage(message);
+                    
+                    // Mostrar indicador de digitação
+                    showTypingIndicator();
+                    
+                    // Enviar mensagem para o servidor
+                    socket.emit('message', message);
+                    
+                    // Limpar campo de entrada
+                    messageInput.value = '';
+                }
+            }
+
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Receber mensagens do servidor
+            socket.on('message', (message) => {
+                // Remover indicador de digitação
+                hideTypingIndicator();
+                
+                // Adicionar mensagem do bot
+                addMessage(message);
+            });
+
+            // Sugestões de perguntas
+            const sugestoes = [
+                "Qual é a história da FURIA?",
+                "Quem são os jogadores atuais?",
+                "Quais são as principais conquistas?",
+                "Como a FURIA se saiu nos Majors?",
+                "Quais são as redes sociais da FURIA?",
+                "Quais outras modalidades a FURIA compete?",
+                "Quem são os jogadores históricos da FURIA?"
+            ];
+
+            // Adicionar sugestões após 1 segundo
+            setTimeout(() => {
+                const sugestoesContainer = document.createElement('div');
+                sugestoesContainer.classList.add('mt-4', 'mb-2');
+                sugestoesContainer.innerHTML = '<p class="text-sm text-gray-400 mb-2">Sugestões de perguntas:</p>';
+                
+                const sugestoesGrid = document.createElement('div');
+                sugestoesGrid.classList.add('flex', 'flex-wrap', 'justify-center');
+                
+                sugestoes.forEach(sugestao => {
+                    const sugestaoBtn = document.createElement('button');
+                    sugestaoBtn.classList.add('suggestion-btn');
+                    sugestaoBtn.textContent = sugestao;
+                    sugestaoBtn.addEventListener('click', () => {
+                        messageInput.value = sugestao;
+                        sendMessage();
+                    });
+                    sugestoesGrid.appendChild(sugestaoBtn);
+                });
+                
+                sugestoesContainer.appendChild(sugestoesGrid);
+                chatContainer.appendChild(sugestoesContainer);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
