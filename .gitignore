@@ -1,0 +1,32 @@
+# .gitignore para o projeto FURIA Chatbot
+
+# Dependências
+/node_modules
+/.pnp
+.pnp.js
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretórios de build
+/dist
+/build
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE e editores
+/.idea
+/.vscode
+*.swp
+*.swo
